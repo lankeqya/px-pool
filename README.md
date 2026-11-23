@@ -53,3 +53,11 @@ print(len(proxies), proxies[:3])
 - SOCKS5: https://raw.githubusercontent.com/lankeqya/px-pool/main/socks5.txt
 - 全部(带协议前缀): https://raw.githubusercontent.com/lankeqya/px-pool/main/all_proxies.txt
 - JSON: https://raw.githubusercontent.com/lankeqya/px-pool/main/proxies.json
+
+## 自动验活（GitHub Actions）
+
+本仓库带一个 Actions 工作流 `.github/workflows/update.yml`，每 6 小时自动运行一次：
+重新从公开源抓取候选代理 -> 在 Actions 的机器上逐个验活（请求 http://httpbin.org/ip）->
+只保留存活节点，按响应速度排序后自动提交回仓库。运行记录和每次的存活数见 STATUS.md。
+也可以在仓库的 Actions 页面手动点 Run workflow 立即跑一次。
+注意：首次提交后定时任务才会生效；免费代理池经这样过滤后，拉到的基本都是当时存活的，但单个节点随时可能失效，爬虫里仍建议做失败重试和自动剔除。
